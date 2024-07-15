@@ -33,8 +33,6 @@ export default function Home() {
           </div>
         )
       }
-
-      <WalletMultiButton style={{}} />
     </main>
   );
 }
