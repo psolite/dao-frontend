@@ -11,15 +11,16 @@ const syne = Syne({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "DAO",
   description: "Create DAO Voting",
+  openGraph: {
+    title: "DAO",
+    description: "Create DAO Voting - Powered by Solana",
+    type: "website",
+    url: "https://dao-frontend-beta.vercel.app/",
+    images: "https://news.miami.edu/_assets/images-stories/2023/02/dao-web3-hero-940x529.jpg"
+  },
+
   other: {
     'dscvr:canvas:version': "vNext"
-  },
-  openGraph: {
-    title: "Airbills Pay",
-    description: "Pay Bills with Crypto - Powered by Solana",
-    type: "website",
-    locale: "en-NG",
-    images: "https://news.miami.edu/_assets/images-stories/2023/02/dao-web3-hero-940x529.jpg"
   }
 };
 

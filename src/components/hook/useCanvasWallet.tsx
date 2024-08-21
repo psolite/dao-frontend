@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { CanvasClient } from '@dscvr-one/canvas-client-sdk';
 import { registerCanvasWallet } from '@dscvr-one/canvas-wallet-adapter';
+import { Transaction } from '@solana/web3.js';
 
 const SOLANA_MAINNET_CHAIN_ID = "solana:101"; // Solana mainnet chain ID
 
 const useCanvasWallet = () => {
   const [canvasClient, setCanvasClient] = useState<CanvasClient | null>(null);
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
+  const [iframe, setIframe] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
     const isIframe = () => {
@@ -16,7 +18,7 @@ const useCanvasWallet = () => {
         return true;
       }
     };
-    const iframe = isIframe();
+    setIframe(isIframe())
     if(iframe){
     const client = new CanvasClient();
     registerCanvasWallet(client);
@@ -41,7 +43,34 @@ const useCanvasWallet = () => {
     }
   };
 
-  return { connectWallet, walletAddress };
+  const signTransaction = async (transaction: Transaction) => {
+    if (canvasClient && walletAddress) {
+      try {
+        const serializedTx = transaction.serialize({
+          requireAllSignatures: false,
+          verifySignatures: false,
+        }).toString('base64');
+
+        const results = await canvasClient.signAndSendTransaction({
+          unsignedTx: serializedTx,
+          awaitCommitment: "confirmed",
+          chainId: SOLANA_MAINNET_CHAIN_ID,
+        });
+
+        if (results?.untrusted?.success) {
+          console.log('Transaction signed:', results.untrusted.signedTx);
+          return results.untrusted.signedTx;
+        } else {
+          console.error('Failed to sign transaction');
+        }
+      } catch (error) {
+        console.error('Error signing transaction:', error);
+      }
+    }
+    return null;
+  };
+
+  return { connectWallet, walletAddress, signTransaction, iframe };
 };
 
 export default useCanvasWallet;
