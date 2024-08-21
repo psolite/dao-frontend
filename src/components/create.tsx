@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { program, deriveProposalPDA } from "./anchor/setup";
 import { web3, BN } from "@coral-xyz/anchor";
@@ -10,11 +10,10 @@ if (typeof window !== 'undefined') {
 }
 
 
-
 const CreateProposal = () => {
     const { publicKey, sendTransaction } = useWallet();
     const { connection } = useConnection();
-    const [proposal, setProposal] = useState<any>(null);
+    const [proposal, setProposal] = useState<any>(null);  
 
     const proposalId = new BN(Date.now());
 
@@ -63,7 +62,7 @@ const CreateProposal = () => {
     return (
         <>
             <Dashboard createProposal={createProposal} />
-            
+
         </>
     );
 }

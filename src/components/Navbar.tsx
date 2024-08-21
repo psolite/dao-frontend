@@ -3,8 +3,12 @@ import { Button } from "./ui/Button";
 import { useEffect, useState } from "react";
 import TotalPoint from "./Point";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { registerCanvasWallet } from '@dscvr-one/canvas-wallet-adapter';
+import useCanvasWallet from "./hook/useCanvasWallet";
 
 const Navbar = () => {
+  const { connectWallet, walletAddress } = useCanvasWallet();
+  
   
   return (
     <nav className={`flex items-center justify-between`}>
@@ -13,6 +17,7 @@ const Navbar = () => {
           <h1 className="text-[24px] font-extrabold leading-[31.2px]">DAO Voting</h1>
 
           <TotalPoint />
+          <Button onClick={connectWallet}>Connect Wallet</Button>
           <WalletMultiButton style={{}} />
           {/* <Button>Connect Wallet</Button> */}
         </div>

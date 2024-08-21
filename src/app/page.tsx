@@ -7,6 +7,7 @@ import { Buffer } from 'buffer';
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import Navbar from "@/components/Navbar";
 import CreateProposal from "@/components/create";
+// import { CanvasClient } from "@dscvr-one/canvas-client-sdk";
 
 if (typeof window !== 'undefined') {
   window.Buffer = Buffer;
@@ -17,14 +18,14 @@ export default function Home() {
 
   return (
     <main className="">
-
-      {publicKey ?
+      <>
+        <Navbar />
+        <CreateProposal />
+        <Proposals />
+      </>
+      {/* {publicKey ?
         (
-          <>
-            <Navbar />
-            <CreateProposal />
-            <Proposals />
-          </>
+         
         ) : (
           <div className="flex items-center justify-center min-h-screen">
             <div className="border hover:border-slate-900 rounded">
@@ -32,7 +33,7 @@ export default function Home() {
             </div>
           </div>
         )
-      }
+      } */}
     </main>
   );
 }
