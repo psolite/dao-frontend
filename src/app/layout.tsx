@@ -32,15 +32,11 @@ export default function RootLayout({
 }>) {
 
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={syne.className}>
-        <AppWalletProvider>{children}
-
+    <html lang="en" >
+      <body className=''>
+        <AppWalletProvider>
+          {children}
         </AppWalletProvider>
-        {/* <> 
-            <Navbar />
-            {children}
-           </>  */}
       </body>
     </html>
   );
