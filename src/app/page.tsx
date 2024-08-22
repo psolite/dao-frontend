@@ -18,14 +18,14 @@ export default function Home() {
 
   return (
     <main className="">
-      <>
+      
+       {publicKey ?
+        (
+         <>
         <Navbar />
         <CreateProposal />
         <Proposals />
       </>
-      {/* {publicKey ?
-        (
-         
         ) : (
           <div className="flex items-center justify-center min-h-screen">
             <div className="border hover:border-slate-900 rounded">
@@ -33,7 +33,7 @@ export default function Home() {
             </div>
           </div>
         )
-      } */}
+      } 
     </main>
   );
 }
