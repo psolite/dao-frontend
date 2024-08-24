@@ -34,10 +34,11 @@ const useCanvasWallet = () => {
     try {
       console.log("I am on")
       if (clientInitialized && canvasClient) {
-        console.log("I am in")
+        await canvasClient.ready();
+        console.log("CanvasClient is ready");
         try {
           const response = await canvasClient.connectWallet(SOLANA_MAINNET_CHAIN_ID);
-          
+
           console.log("yes")
           if (response?.untrusted?.success) {
             setWalletAddress(response.untrusted.address);
