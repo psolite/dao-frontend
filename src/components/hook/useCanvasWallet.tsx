@@ -31,6 +31,7 @@ const useCanvasWallet = () => {
     if (canvasClient) {
       try {
         const response = await canvasClient.connectWallet(SOLANA_MAINNET_CHAIN_ID);
+        alert("yes")
         if (response?.untrusted?.success) {
           setWalletAddress(response.untrusted.address);
           console.log('Wallet connected:', response.untrusted.address);
@@ -41,6 +42,7 @@ const useCanvasWallet = () => {
         console.error('Error connecting wallet:', error);
       }
     }
+    alert("no")
   };
 
   const signTransaction = async (transaction: Transaction) => {
