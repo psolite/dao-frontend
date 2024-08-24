@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useContext, createContext, useEffect, ReactNode } from 'react';
 import { CanvasClient } from '@dscvr-one/canvas-client-sdk';
 import { registerCanvasWallet } from '@dscvr-one/canvas-wallet-adapter';

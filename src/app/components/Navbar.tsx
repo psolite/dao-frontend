@@ -1,7 +1,7 @@
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { Button } from "../../components/ui/Button";
 import TotalPoint from "../../components/Point";
-import useCanvasWallet from "./hook/useCanvasWallet";
+import useCanvasWallet from '@/app/components/CanvasWalletProvider';
 import Image from "next/image";
 
 const Navbar = () => {

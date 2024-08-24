@@ -4,7 +4,7 @@ import { program, deriveProposalPDA } from "./anchor/setup";
 import { web3, BN } from "@coral-xyz/anchor";
 import { Buffer } from 'buffer';
 import Dashboard from "./Dashboard";
-import useCanvasWallet from "../app/components/hook/useCanvasWallet";
+import useCanvasWallet from '@/app/components/CanvasWalletProvider';
 import { PublicKey } from "@solana/web3.js";
 
 if (typeof window !== 'undefined') {
