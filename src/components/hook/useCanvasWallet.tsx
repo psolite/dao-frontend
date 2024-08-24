@@ -8,7 +8,7 @@ const SOLANA_MAINNET_CHAIN_ID = "solana:101"; // Solana mainnet chain ID
 const useCanvasWallet = () => {
   const [canvasClient, setCanvasClient] = useState<CanvasClient | null>(null);
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
-  const [iframe, setIframe] = useState<boolean | undefined>(undefined);
+  const [iframe, setIframe] = useState<boolean | false>(false);
 
   useEffect(() => {
     const isIframe = () => {
@@ -19,30 +19,34 @@ const useCanvasWallet = () => {
       }
     };
     setIframe(isIframe())
-    if(iframe){
-    const client = new CanvasClient();
-    registerCanvasWallet(client);
-    setCanvasClient(client);
+    if (isIframe()) {
+      const client = new CanvasClient();
+      registerCanvasWallet(client);
+      setCanvasClient(client);
     }
   }, []);
 
   const connectWallet = async () => {
-
-    if (canvasClient) {
-      try {
-        const response = await canvasClient.connectWallet(SOLANA_MAINNET_CHAIN_ID);
-        alert("yes")
-        if (response?.untrusted?.success) {
-          setWalletAddress(response.untrusted.address);
-          console.log('Wallet connected:', response.untrusted.address);
-        } else {
-          console.error('Failed to connect wallet');
+    try {
+      console.log(canvasClient)
+      if (canvasClient) {
+        try {
+          const response = await canvasClient.connectWallet(SOLANA_MAINNET_CHAIN_ID);
+          
+          console.log("yes")
+          if (response?.untrusted?.success) {
+            setWalletAddress(response.untrusted.address);
+            console.log('Wallet connected:', response.untrusted.address);
+          } else {
+            console.error('Failed to connect wallet');
+          }
+        } catch (error) {
+          console.error('Error connecting wallet:', error);
         }
-      } catch (error) {
-        console.error('Error connecting wallet:', error);
       }
+    } catch (e) {
+      console.log(e)
     }
-    // alert("no")
   };
 
   const signTransaction = async (transaction: Transaction) => {
