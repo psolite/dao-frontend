@@ -26,10 +26,7 @@ export default function Home() {
   // }
 
   return (
-    <>
-      <Head>
-        <meta http-equiv="Content-Security-Policy" content="connect-src 'self' https://api.dscvr.one https://api1.stg.dscvr.one https://*.helius-rpc.com https://api.devnet.solana.com;" />
-      </Head>
+   
       <main className="">
         {(publicKey || walletAddress) ?
           (
@@ -48,6 +45,5 @@ export default function Home() {
           )
         }
       </main>
-    </>
   );
 }
