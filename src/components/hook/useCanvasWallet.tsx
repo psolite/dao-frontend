@@ -8,6 +8,7 @@ const SOLANA_MAINNET_CHAIN_ID = "solana:101"; // Solana mainnet chain ID
 const useCanvasWallet = () => {
   const [canvasClient, setCanvasClient] = useState<CanvasClient | null>(null);
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
+  const [walletIcon, setWalletIcon] = useState<string | null>(null);
   const [iframe, setIframe] = useState<boolean | false>(false);
 
   useEffect(() => {
@@ -36,6 +37,7 @@ const useCanvasWallet = () => {
           console.log("yes")
           if (response?.untrusted?.success) {
             setWalletAddress(response.untrusted.address);
+            setWalletIcon(response.untrusted.walletIcon);
             console.log('Wallet connected:', response.untrusted.address);
           } else {
             console.error('Failed to connect wallet');
@@ -76,7 +78,7 @@ const useCanvasWallet = () => {
     return null;
   };
 
-  return { connectWallet, walletAddress, signTransaction, iframe };
+  return { connectWallet, walletAddress, walletIcon, signTransaction, iframe };
 };
 
 export default useCanvasWallet;

@@ -4,6 +4,8 @@ import { program, deriveProposalPDA } from "./anchor/setup";
 import { web3, BN } from "@coral-xyz/anchor";
 import { Buffer } from 'buffer';
 import Dashboard from "./Dashboard";
+import useCanvasWallet from "./hook/useCanvasWallet";
+import { PublicKey } from "@solana/web3.js";
 
 if (typeof window !== 'undefined') {
     window.Buffer = Buffer;
@@ -11,9 +13,16 @@ if (typeof window !== 'undefined') {
 
 
 const CreateProposal = () => {
-    const { publicKey, sendTransaction } = useWallet();
+    let { publicKey, sendTransaction } = useWallet();
     const { connection } = useConnection();
-    const [proposal, setProposal] = useState<any>(null);  
+    const [proposal, setProposal] = useState<any>(null);
+    const { connectWallet, walletAddress, iframe } = useCanvasWallet();
+
+    if(walletAddress){
+        const pubKey = new PublicKey(walletAddress)
+        publicKey = pubKey
+    }
+
 
     const proposalId = new BN(Date.now());
 

@@ -9,6 +9,7 @@ import Navbar from "@/components/Navbar";
 import CreateProposal from "@/components/create";
 import useCanvasWallet from "@/components/hook/useCanvasWallet";
 import { Button } from "@/components/ui/Button";
+import { PublicKey } from "@solana/web3.js";
 // import { CanvasClient } from "@dscvr-one/canvas-client-sdk";
 
 if (typeof window !== 'undefined') {
@@ -16,28 +17,31 @@ if (typeof window !== 'undefined') {
 }
 
 export default function Home() {
-  const { publicKey } = useWallet();
+  let { publicKey } = useWallet();
   const { connectWallet, walletAddress, iframe } = useCanvasWallet();
+  if (walletAddress) {
+    const pubKey = new PublicKey(walletAddress)
+    publicKey = pubKey
+  }
 
   return (
     <main className="">
-      
-       {publicKey ?
+
+      {publicKey ?
         (
-         <>
-        <Navbar />
-        <CreateProposal />
-        <Proposals />
-      </>
+          <>
+            <Navbar />
+            <CreateProposal />
+            <Proposals />
+          </>
         ) : (
           <div className="flex items-center justify-center min-h-screen">
             <div className="border hover:border-slate-900 rounded">
-              {iframe ? <button onClick={connectWallet}>Connect Wallet</button> : <WalletMultiButton style={{}} />}
-              
+              {iframe ? <Button onClick={connectWallet}>Connect Wallet</Button> : <WalletMultiButton style={{}} />}
             </div>
           </div>
         )
-      } 
+      }
     </main>
   );
 }
