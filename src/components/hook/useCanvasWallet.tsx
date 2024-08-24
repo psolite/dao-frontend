@@ -10,6 +10,7 @@ const useCanvasWallet = () => {
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [walletIcon, setWalletIcon] = useState<string | null>(null);
   const [iframe, setIframe] = useState<boolean | false>(false);
+  const [clientInitialized, setClientInitialized] = useState<boolean | false>(false);
 
   useEffect(() => {
     const isIframe = () => {
@@ -24,13 +25,16 @@ const useCanvasWallet = () => {
       const client = new CanvasClient();
       registerCanvasWallet(client);
       setCanvasClient(client);
+      setClientInitialized(true);
+      console.log("Done")
     }
   }, []);
 
   const connectWallet = async () => {
     try {
-      console.log(canvasClient)
-      if (canvasClient) {
+      console.log("I am on")
+      if (clientInitialized && canvasClient) {
+        console.log("I am in")
         try {
           const response = await canvasClient.connectWallet(SOLANA_MAINNET_CHAIN_ID);
           
