@@ -42,7 +42,7 @@ const useCanvasWallet = () => {
         console.error('Error connecting wallet:', error);
       }
     }
-    alert("no")
+    // alert("no")
   };
 
   const signTransaction = async (transaction: Transaction) => {
