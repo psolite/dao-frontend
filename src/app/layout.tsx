@@ -20,7 +20,6 @@ export const metadata: Metadata = {
   },
   other: {
     'dscvr:canvas:version': "vNext",
-    'Content-Security-Policy': "connect-src 'self' https://api.dscvr.one https://api1.stg.dscvr.one https://*.helius-rpc.com https://api.devnet.solana.com;"
   }
 };
 

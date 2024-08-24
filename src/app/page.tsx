@@ -10,6 +10,7 @@ import CreateProposal from "@/components/create";
 import useCanvasWallet from '@/app/components/CanvasWalletProvider';
 import { Button } from "@/components/ui/Button";
 import { PublicKey } from "@solana/web3.js";
+import Head from "next/head";
 // import { CanvasClient } from "@dscvr-one/canvas-client-sdk";
 
 if (typeof window !== 'undefined') {
@@ -25,23 +26,28 @@ export default function Home() {
   // }
 
   return (
-    <main className="">
-      {(publicKey || walletAddress) ?
-        (
-          <>
-            <Navbar />
-            <h1>{walletAddress}</h1>
-            <CreateProposal />
-            <Proposals />
-          </>
-        ) : (
-          <div className="flex items-center justify-center min-h-screen">
-            <div className="border hover:border-slate-900 rounded">
-              {iframe ? <Button onClick={connectWallet}>Connect Wallet</Button> : <WalletMultiButton style={{}} />}
+    <>
+      <Head>
+        <meta http-equiv="Content-Security-Policy" content="connect-src 'self' https://api.dscvr.one https://api1.stg.dscvr.one https://*.helius-rpc.com https://api.devnet.solana.com;" />
+      </Head>
+      <main className="">
+        {(publicKey || walletAddress) ?
+          (
+            <>
+              <Navbar />
+              <h1>{walletAddress}</h1>
+              <CreateProposal />
+              <Proposals />
+            </>
+          ) : (
+            <div className="flex items-center justify-center min-h-screen">
+              <div className="border hover:border-slate-900 rounded">
+                {iframe ? <Button onClick={connectWallet}>Connect Wallet</Button> : <WalletMultiButton style={{}} />}
+              </div>
             </div>
-          </div>
-        )
-      }
-    </main>
+          )
+        }
+      </main>
+    </>
   );
 }
