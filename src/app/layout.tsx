@@ -19,7 +19,8 @@ export const metadata: Metadata = {
     images: "https://news.miami.edu/_assets/images-stories/2023/02/dao-web3-hero-940x529.jpg"
   },
   other: {
-    'dscvr:canvas:version': "vNext"
+    'dscvr:canvas:version': "vNext",
+     'Content-Security-Policy': "connect-src 'self' https://api.devnet.solana.com;"
   }
 };
 
