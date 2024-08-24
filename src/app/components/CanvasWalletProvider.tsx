@@ -71,29 +71,29 @@ export const CanvasWalletProvider = ({ children }: { children: ReactNode }) => {
             console.error('CanvasClient or walletAddress is not available');
             return null;
         }
-    
+
         try {
-            const network = clusterApiUrl('devnet');
+            const network = "https://api.dscvr.one";  // Updated to use an allowed endpoint
             const connection = new Connection(network, 'confirmed');
-    
+
             // Fetch the latest blockhash
             const { blockhash } = await connection.getLatestBlockhash({ commitment: "finalized" });
             transaction.recentBlockhash = blockhash;
             transaction.feePayer = new PublicKey(walletAddress);
-    
+
             // Serialize the transaction
             const serializedTx = transaction.serialize({
                 requireAllSignatures: false,
                 verifySignatures: false,
             }).toString('base64');
-    
+
             // Sign and send the transaction via canvasClient
             const results = await canvasClient.signAndSendTransaction({
                 unsignedTx: serializedTx,
                 awaitCommitment: "confirmed",
                 chainId: SOLANA_MAINNET_CHAIN_ID,
             });
-    
+
             if (results?.untrusted?.success) {
                 console.log('Transaction signed:', results.untrusted.signedTx);
                 return results.untrusted.signedTx;
@@ -103,10 +103,10 @@ export const CanvasWalletProvider = ({ children }: { children: ReactNode }) => {
         } catch (error) {
             console.error('Error signing transaction:', error);
         }
-    
+
         return null;
     };
-    
+
 
     const value: WalletContextType = {
         connectWallet,
