@@ -13,19 +13,17 @@ if (typeof window !== 'undefined') {
 
 
 const CreateProposal = () => {
-    const { publicKey: walletPublicKey, sendTransaction: walletSendTransaction } = useWallet();
+    const { publicKey: walletPublicKey, sendTransaction } = useWallet();
     const { connection } = useConnection();
     const [proposal, setProposal] = useState<any>(null);
     const { connectWallet, walletAddress, iframe, signTransaction } = useCanvasWallet();
-  
 
-  let publicKey = walletPublicKey;
-  let sendTransaction = walletSendTransaction;
 
-  if (walletAddress) {
-    publicKey = new PublicKey(walletAddress);
-    sendTransaction = signTransaction as unknown as typeof walletSendTransaction;
-  }
+    let publicKey = walletPublicKey;
+
+    if (walletAddress) {
+        publicKey = new PublicKey(walletAddress);
+    }
 
 
     const proposalId = new BN(Date.now());
@@ -48,17 +46,23 @@ const CreateProposal = () => {
             console.log('Transaction created:', trx);
 
             console.log('Sending transaction...');
-            const trxSign = await sendTransaction(
-                trx,
-                connection,
-                { signers: [] }
-            );
+            let trxSign;
+            if (walletAddress) {
+                trxSign = await signTransaction(
+                    trx
+                );
+            } else {
+                trxSign = await sendTransaction(
+                    trx,
+                    connection,
+                    { signers: [] }
+                );
+                const confirmation = await connection.confirmTransaction(trxSign, 'confirmed');
+                console.log('Transaction confirmed:', confirmation);
+            }
             console.log(
                 `View on explorer: https://solana.fm/tx/${trxSign}?cluster=devnet-alpha`
             );
-
-            const confirmation = await connection.confirmTransaction(trxSign, 'confirmed');
-            console.log('Transaction confirmed:', confirmation);
 
             const account = await program.account.proposal.fetch(proposalPDA);
             setProposal(account);
