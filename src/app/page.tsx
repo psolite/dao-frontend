@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useWallet } from '@solana/wallet-adapter-react';
 import { Buffer } from 'buffer';
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/app/components/Navbar";
 import CreateProposal from "@/components/create";
 import useCanvasWallet from "@/components/hook/useCanvasWallet";
 import { Button } from "@/components/ui/Button";
