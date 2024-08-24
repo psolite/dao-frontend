@@ -91,7 +91,7 @@ export const CanvasWalletProvider = ({ children }: { children: ReactNode }) => {
             const results = await canvasClient.signAndSendTransaction({
                 unsignedTx: serializedTx,
                 awaitCommitment: "confirmed",
-                chainId: SOLANA_MAINNET_CHAIN_ID,  // Ensure this is the correct chain ID
+                chainId: SOLANA_MAINNET_CHAIN_ID,
             });
     
             if (results?.untrusted?.success) {

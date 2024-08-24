@@ -2,20 +2,18 @@
 const nextConfig = {
     async headers() {
         return [
-          {
-            source: "/(.)",
-            headers: [
-    
-              {
-                key: "Content-Security-Policy",
-                value: "connect-src 'self' https://api.dscvr.one https://api1.stg.dscvr.one https://*.helius-rpc.com https://api.devnet.solana.com/",
-              },
-    
-            ],
-          },
+            {
+                // Apply these headers to all routes in your application
+                source: '/(.*)',
+                headers: [
+                    {
+                        key: 'Content-Security-Policy',
+                        value: "default-src 'self'; connect-src 'self' https://api.devnet.solana.com https://api.dscvr.one https://*.helius-rpc.com; script-src 'self'; object-src 'none';",
+                    },
+                ],
+            },
         ];
-      },
-    
+    },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
