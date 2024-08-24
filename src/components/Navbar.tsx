@@ -1,12 +1,12 @@
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { Button } from "../../components/ui/Button";
-import TotalPoint from "../../components/Point";
+import { Button } from "./ui/Button";
+import TotalPoint from "./Point";
 import useCanvasWallet from '@/app/components/CanvasWalletProvider';
 import Image from "next/image";
 
 const Navbar = () => {
   const { connectWallet, walletAddress, walletIcon, iframe } = useCanvasWallet();
-  console.log("wallet address",walletAddress)
+  // console.log("wallet address",walletAddress)
 
   return (
     <nav className={`flex items-center justify-between`}>
