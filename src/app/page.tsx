@@ -31,6 +31,7 @@ export default function Home() {
         (
           <>
             <Navbar />
+            <h1>{walletAddress}</h1>
             <CreateProposal />
             <Proposals />
           </>

@@ -9,7 +9,7 @@ const useCanvasWallet = () => {
   const [canvasClient, setCanvasClient] = useState<CanvasClient | null>(null);
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [walletIcon, setWalletIcon] = useState<string | null>(null);
-  const [iframe, setIframe] = useState<boolean | false>(false);
+  const [iframe, setIframe] = useState<boolean>(false);
 
   useEffect(() => {
     const isIframe = () => {
@@ -19,38 +19,37 @@ const useCanvasWallet = () => {
         return true;
       }
     };
-    setIframe(isIframe())
+
+    setIframe(isIframe());
+
     if (isIframe()) {
       const client = new CanvasClient();
       registerCanvasWallet(client);
       setCanvasClient(client);
-      console.log("Done")
+      console.log("CanvasClient initialized");
     }
   }, []);
 
   const connectWallet = async () => {
-    try {
-      console.log("I am on")
-      if (canvasClient) {
+    if (canvasClient) {
+      try {
         await canvasClient.ready();
         console.log("CanvasClient is ready");
-        try {
-          const response = await canvasClient.connectWallet(SOLANA_MAINNET_CHAIN_ID);
 
-          console.log("yes")
-          if (response?.untrusted?.success) {
-            setWalletAddress(response.untrusted.address);
-            setWalletIcon(response.untrusted.walletIcon);
-            console.log('Wallet connected:', response.untrusted.address);
-          } else {
-            console.error('Failed to connect wallet');
-          }
-        } catch (error) {
-          console.error('Error connecting wallet:', error);
+        const response = await canvasClient.connectWallet(SOLANA_MAINNET_CHAIN_ID);
+
+        if (response?.untrusted?.success) {
+          setWalletAddress(response.untrusted.address);
+          setWalletIcon(response.untrusted.walletIcon);
+          console.log('Wallet connected:', response.untrusted.address);
+        } else {
+          console.error('Failed to connect wallet');
         }
+      } catch (error) {
+        console.error('Error connecting wallet:', error);
       }
-    } catch (e) {
-      console.log(e)
+    } else {
+      console.error('CanvasClient is not initialized');
     }
   };
 
@@ -77,6 +76,8 @@ const useCanvasWallet = () => {
       } catch (error) {
         console.error('Error signing transaction:', error);
       }
+    } else {
+      console.error('CanvasClient or walletAddress is not available');
     }
     return null;
   };
