@@ -19,15 +19,15 @@ if (typeof window !== 'undefined') {
 export default function Home() {
   let { publicKey } = useWallet();
   const { connectWallet, walletAddress, iframe } = useCanvasWallet();
-  if (walletAddress) {
-    const pubKey = new PublicKey(walletAddress)
-    publicKey = pubKey
-  }
+  // if (walletAddress) {
+  //   const pubKey = new PublicKey(walletAddress)
+  //   publicKey = pubKey
+  // }
 
   return (
     <main className="">
 
-      {publicKey ?
+      {(publicKey || walletAddress) ?
         (
           <>
             <Navbar />
