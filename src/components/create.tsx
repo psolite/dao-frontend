@@ -57,7 +57,7 @@ const CreateProposal = () => {
                 `View on explorer: https://solana.fm/tx/${trxSign}?cluster=devnet-alpha`
             );
 
-            const confirmation = await connection.confirmTransaction(trxSign, 'processed');
+            const confirmation = await connection.confirmTransaction(trxSign, 'confirmed');
             console.log('Transaction confirmed:', confirmation);
 
             const account = await program.account.proposal.fetch(proposalPDA);
