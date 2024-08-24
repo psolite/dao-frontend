@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { program } from "./anchor/setup";
-import useCanvasWallet from './hook/useCanvasWallet';
+import useCanvasWallet from '../app/components/hook/useCanvasWallet';
 import { PublicKey } from '@solana/web3.js';
 
 

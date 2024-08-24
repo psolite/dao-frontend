@@ -7,7 +7,7 @@ import { Buffer } from 'buffer';
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import Navbar from "@/app/components/Navbar";
 import CreateProposal from "@/components/create";
-import useCanvasWallet from "@/components/hook/useCanvasWallet";
+import useCanvasWallet from "@/app/components/hook/useCanvasWallet";
 import { Button } from "@/components/ui/Button";
 import { PublicKey } from "@solana/web3.js";
 // import { CanvasClient } from "@dscvr-one/canvas-client-sdk";
