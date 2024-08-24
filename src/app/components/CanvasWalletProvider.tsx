@@ -86,7 +86,7 @@ export const CanvasWalletProvider = ({ children }: { children: ReactNode }) => {
             const serializedTx = transaction.serialize({
                 requireAllSignatures: false,
                 verifySignatures: false,
-            }).toString('base64');
+            });
 
             const base58Tx = encode(serializedTx)
 
