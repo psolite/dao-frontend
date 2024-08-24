@@ -18,7 +18,7 @@ const Navbar = () => {
           <h1 className="text-[24px] font-extrabold leading-[31.2px]">DAO Voting</h1>
 
           <TotalPoint />
-          {iframe ?
+          {walletAddress ?
             // <Button>
             //   <Image
             //     src={walletIcon || ''}
@@ -31,7 +31,10 @@ const Navbar = () => {
             // </Button> 
             ""
             :
+            <>
             <WalletMultiButton style={{}} />
+            <h1>{walletAddress}</h1>
+            </>
           }
         </div>
       </div>
