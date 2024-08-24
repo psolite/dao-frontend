@@ -7,6 +7,8 @@ import { Buffer } from 'buffer';
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import Navbar from "@/components/Navbar";
 import CreateProposal from "@/components/create";
+import useCanvasWallet from "@/components/hook/useCanvasWallet";
+import { Button } from "@/components/ui/Button";
 // import { CanvasClient } from "@dscvr-one/canvas-client-sdk";
 
 if (typeof window !== 'undefined') {
@@ -15,6 +17,7 @@ if (typeof window !== 'undefined') {
 
 export default function Home() {
   const { publicKey } = useWallet();
+  const { connectWallet, walletAddress, iframe } = useCanvasWallet();
 
   return (
     <main className="">
@@ -29,7 +32,8 @@ export default function Home() {
         ) : (
           <div className="flex items-center justify-center min-h-screen">
             <div className="border hover:border-slate-900 rounded">
-              <WalletMultiButton style={{}} />
+              {iframe ? <Button onClick={connectWallet}>Connect Wallet</Button> : <WalletMultiButton style={{}} />}
+              
             </div>
           </div>
         )
