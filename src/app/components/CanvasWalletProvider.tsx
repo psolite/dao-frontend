@@ -4,6 +4,7 @@ import { useState, useContext, createContext, useEffect, ReactNode } from 'react
 import { CanvasClient } from '@dscvr-one/canvas-client-sdk';
 import { registerCanvasWallet } from '@dscvr-one/canvas-wallet-adapter';
 import { clusterApiUrl, Connection, PublicKey, Transaction } from '@solana/web3.js';
+import { encode } from 'bs58';
 
 interface WalletContextType {
     connectWallet: () => Promise<void>;
@@ -87,9 +88,11 @@ export const CanvasWalletProvider = ({ children }: { children: ReactNode }) => {
                 verifySignatures: false,
             }).toString('base64');
 
+            const base58Tx = encode(serializedTx)
+
             // Sign and send the transaction via canvasClient
             const results = await canvasClient.signAndSendTransaction({
-                unsignedTx: serializedTx,
+                unsignedTx: base58Tx,
                 awaitCommitment: "confirmed",
                 chainId: SOLANA_MAINNET_CHAIN_ID,
             });
