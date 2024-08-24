@@ -4,6 +4,7 @@ import { web3 } from '@coral-xyz/anchor';
 import { Buffer } from 'buffer';
 import { Button } from './ui/Button';
 import { useState } from 'react';
+import useCanvasWallet from '@/app/components/CanvasWalletProvider';
 
 if (typeof window !== 'undefined') {
     window.Buffer = Buffer;
@@ -13,9 +14,10 @@ const Voting: React.FC<{ proposalPDA: web3.PublicKey, voted: boolean, onVote: ()
     const { connection } = useConnection();
     const { publicKey, sendTransaction } = useWallet();
     const [loading, setLoading] = useState(false);
-    
+    const { walletAddress, signTransaction } = useCanvasWallet();
+
     const vote = async (voteOption: "For" | "Against" | "Abstain") => {
-    
+
         if (!publicKey) return;
 
         setLoading(true)
@@ -44,11 +46,15 @@ const Voting: React.FC<{ proposalPDA: web3.PublicKey, voted: boolean, onVote: ()
 
             );
 
+            let trxSignature;
+            if (walletAddress) {
+                trxSignature = await signTransaction(trx)
+            } else {
 
-            const trxSignature = await sendTransaction(trx, connection, { signers: [] });
-            console.log(`Vote transaction sent: ${trxSignature}`);
-
-            const account = await program.account.proposal.fetch(proposalPDA);
+                trxSignature = await sendTransaction(trx, connection, { signers: [] });
+                console.log(`Vote transaction sent: ${trxSignature}`);
+            }
+            const account = program.account.proposal.fetch(proposalPDA);
             console.log(account)
 
             onVote();

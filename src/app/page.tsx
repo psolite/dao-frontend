@@ -27,14 +27,13 @@ export default function Home() {
 
   return (
    
-      <main className="">
+      <main className="m-5">
         {(publicKey || walletAddress) ?
           (
             <>
               <Navbar />
-              <h1>{walletAddress}</h1>
               <CreateProposal />
-              <Proposals />
+              {/* <Proposals /> */}
             </>
           ) : (
             <div className="flex items-center justify-center min-h-screen">

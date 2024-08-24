@@ -16,6 +16,7 @@ const CreateProposal = () => {
     const { publicKey: walletPublicKey, sendTransaction } = useWallet();
     const { connection } = useConnection();
     const [proposal, setProposal] = useState<any>(null);
+    const [failed, setFailed] = useState<any>(null);
     const { connectWallet, walletAddress, iframe, signTransaction } = useCanvasWallet();
 
 
@@ -33,7 +34,7 @@ const CreateProposal = () => {
         // console.log(publicKey)
         try {
             const { proposalPDA } = await deriveProposalPDA(publicKey, proposalId)
-
+            setProposal(proposalPDA.toString());
             console.log('Creating transaction...');
             const trx = await program.methods.createProposal(title, description, proposalId, point)
                 .accounts({
@@ -65,11 +66,10 @@ const CreateProposal = () => {
                 `View on explorer: https://solana.fm/tx/${trxSign}?cluster=devnet-alpha`
             );
 
-            // const account = await program.account.proposal.fetch(proposalPDA);
-            // setProposal(account);
-            // console.log(account)
+            
         } catch (error) {
             console.error('Error creating proposal:', error);
+            setFailed(error)
         }
     };
 
@@ -80,7 +80,8 @@ const CreateProposal = () => {
     return (
         <>
             <Dashboard createProposal={createProposal} />
-
+            {proposal ? <p>Your poll link (the link will be valid if your transaction is success): {process.env.NEXT_PUBLIC_URL}/voting/{proposal}</p> : ""}
+            {failed && <p>Error: {failed.message}</p>}
         </>
     );
 }
