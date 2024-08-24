@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { program } from "./anchor/setup";
+import useCanvasWallet from './hook/useCanvasWallet';
+import { PublicKey } from '@solana/web3.js';
 
 
 const TotalPoint = () => {
-    const { publicKey } = useWallet();
 
+    let { publicKey } = useWallet();
+    const {walletAddress, iframe} = useCanvasWallet()
+    if(iframe && walletAddress){
+        console.log(walletAddress)
+        const pubKey = new PublicKey(walletAddress)
+        publicKey = pubKey
+    }
     const [totalRewardPoints, setTotalRewardPoints] = useState(0);
 
     const fetchTotalPoints = async () => {

@@ -10,7 +10,6 @@ const useCanvasWallet = () => {
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [walletIcon, setWalletIcon] = useState<string | null>(null);
   const [iframe, setIframe] = useState<boolean | false>(false);
-  const [clientInitialized, setClientInitialized] = useState<boolean | false>(false);
 
   useEffect(() => {
     const isIframe = () => {
@@ -25,7 +24,6 @@ const useCanvasWallet = () => {
       const client = new CanvasClient();
       registerCanvasWallet(client);
       setCanvasClient(client);
-      setClientInitialized(true);
       console.log("Done")
     }
   }, []);
@@ -33,7 +31,7 @@ const useCanvasWallet = () => {
   const connectWallet = async () => {
     try {
       console.log("I am on")
-      if (clientInitialized && canvasClient) {
+      if (canvasClient) {
         await canvasClient.ready();
         console.log("CanvasClient is ready");
         try {

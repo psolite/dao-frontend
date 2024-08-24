@@ -9,7 +9,7 @@ import Image from "next/image";
 
 const Navbar = () => {
   const { connectWallet, walletAddress, walletIcon, iframe } = useCanvasWallet();
-
+  console.log(walletAddress)
 
   return (
     <nav className={`flex items-center justify-between`}>
@@ -18,17 +18,19 @@ const Navbar = () => {
           <h1 className="text-[24px] font-extrabold leading-[31.2px]">DAO Voting</h1>
 
           <TotalPoint />
-          {walletAddress ?
-            <Button onClick={connectWallet}>walletAddress
-              <Image
-                src={walletIcon || ''}
-                alt={walletIcon || ''}
-                height={20}
-                width={20}
-                className="mr-5 "
-              />
-              {walletAddress.slice(0, 4)}...{walletAddress.slice(-4)}
-            </Button> :
+          {iframe ?
+            // <Button>
+            //   <Image
+            //     src={walletIcon || ''}
+            //     alt={walletIcon || ''}
+            //     height={20}
+            //     width={20}
+            //     className="mr-5 "
+            //   />
+            //   {walletAddress?.slice(0, 4)}...{walletAddress?.slice(-4)}
+            // </Button> 
+            ""
+            :
             <WalletMultiButton style={{}} />
           }
         </div>
