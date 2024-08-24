@@ -32,7 +32,7 @@ export default function Home() {
         ) : (
           <div className="flex items-center justify-center min-h-screen">
             <div className="border hover:border-slate-900 rounded">
-              {iframe ? <Button onClick={connectWallet}>Connect Wallet</Button> : <WalletMultiButton style={{}} />}
+              {iframe ? <button onClick={connectWallet}>Connect Wallet</button> : <WalletMultiButton style={{}} />}
               
             </div>
           </div>
