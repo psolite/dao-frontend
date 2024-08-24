@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+module.exports  = {
     async headers() {
         return [
             {
@@ -8,12 +8,10 @@ const nextConfig = {
                 headers: [
                     {
                         key: 'Content-Security-Policy',
-                        value: "default-src 'self'; connect-src 'self' https://api.devnet.solana.com https://api.dscvr.one https://*.helius-rpc.com; script-src 'self'; object-src 'none';",
+                        value: "connect-src 'self' https://api.dscvr.one https://api1.stg.dscvr.one https://*.helius-rpc.com https://api.devnet.solana.com/",
                     },
                 ],
             },
         ];
     },
 };
-
-module.exports = nextConfig;
