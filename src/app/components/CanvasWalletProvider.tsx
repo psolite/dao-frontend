@@ -3,7 +3,7 @@
 import { useState, useContext, createContext, useEffect, ReactNode } from 'react';
 import { CanvasClient } from '@dscvr-one/canvas-client-sdk';
 import { registerCanvasWallet } from '@dscvr-one/canvas-wallet-adapter';
-import { Transaction } from '@solana/web3.js';
+import { clusterApiUrl, Connection, PublicKey, Transaction } from '@solana/web3.js';
 
 interface WalletContextType {
     connectWallet: () => Promise<void>;
@@ -67,33 +67,46 @@ export const CanvasWalletProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const signTransaction = async (transaction: Transaction) => {
-        if (canvasClient && walletAddress) {
-            try {
-                const serializedTx = transaction.serialize({
-                    requireAllSignatures: false,
-                    verifySignatures: false,
-                }).toString('base64');
-
-                const results = await canvasClient.signAndSendTransaction({
-                    unsignedTx: serializedTx,
-                    awaitCommitment: "confirmed",
-                    chainId: SOLANA_MAINNET_CHAIN_ID,
-                });
-
-                if (results?.untrusted?.success) {
-                    console.log('Transaction signed:', results.untrusted.signedTx);
-                    return results.untrusted.signedTx;
-                } else {
-                    console.error('Failed to sign transaction');
-                }
-            } catch (error) {
-                console.error('Error signing transaction:', error);
-            }
-        } else {
+        if (!canvasClient || !walletAddress) {
             console.error('CanvasClient or walletAddress is not available');
+            return null;
         }
+    
+        try {
+            const network = clusterApiUrl('devnet');
+            const connection = new Connection(network, 'confirmed');
+    
+            // Fetch the latest blockhash
+            const { blockhash } = await connection.getLatestBlockhash({ commitment: "finalized" });
+            transaction.recentBlockhash = blockhash;
+            transaction.feePayer = new PublicKey(walletAddress);
+    
+            // Serialize the transaction
+            const serializedTx = transaction.serialize({
+                requireAllSignatures: false,
+                verifySignatures: false,
+            }).toString('base64');
+    
+            // Sign and send the transaction via canvasClient
+            const results = await canvasClient.signAndSendTransaction({
+                unsignedTx: serializedTx,
+                awaitCommitment: "confirmed",
+                chainId: SOLANA_MAINNET_CHAIN_ID,  // Ensure this is the correct chain ID
+            });
+    
+            if (results?.untrusted?.success) {
+                console.log('Transaction signed:', results.untrusted.signedTx);
+                return results.untrusted.signedTx;
+            } else {
+                console.error('Failed to sign transaction');
+            }
+        } catch (error) {
+            console.error('Error signing transaction:', error);
+        }
+    
         return null;
     };
+    
 
     const value: WalletContextType = {
         connectWallet,
