@@ -73,7 +73,7 @@ export const CanvasWalletProvider = ({ children }: { children: ReactNode }) => {
         }
 
         try {
-            const network = "https://api.dscvr.one";  // Updated to use an allowed endpoint
+            const network = "https://api.devnet.solana.com/";
             const connection = new Connection(network, 'confirmed');
 
             // Fetch the latest blockhash

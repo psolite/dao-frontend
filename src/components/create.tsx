@@ -60,13 +60,14 @@ const CreateProposal = () => {
                 const confirmation = await connection.confirmTransaction(trxSign, 'confirmed');
                 console.log('Transaction confirmed:', confirmation);
             }
+            
             console.log(
                 `View on explorer: https://solana.fm/tx/${trxSign}?cluster=devnet-alpha`
             );
 
-            const account = await program.account.proposal.fetch(proposalPDA);
-            setProposal(account);
-            console.log(account)
+            // const account = await program.account.proposal.fetch(proposalPDA);
+            // setProposal(account);
+            // console.log(account)
         } catch (error) {
             console.error('Error creating proposal:', error);
         }
