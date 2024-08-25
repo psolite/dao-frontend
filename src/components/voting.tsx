@@ -5,6 +5,7 @@ import { Buffer } from 'buffer';
 import { Button } from './ui/Button';
 import { useState } from 'react';
 import useCanvasWallet from '@/app/components/CanvasWalletProvider';
+import { PublicKey } from '@solana/web3.js';
 
 if (typeof window !== 'undefined') {
     window.Buffer = Buffer;
@@ -12,9 +13,14 @@ if (typeof window !== 'undefined') {
 
 const Voting: React.FC<{ proposalPDA: web3.PublicKey, voted: boolean, onVote: () => void }> = ({ proposalPDA, voted, onVote }) => {
     const { connection } = useConnection();
-    const { publicKey, sendTransaction } = useWallet();
+    let { publicKey, sendTransaction } = useWallet();
     const [loading, setLoading] = useState(false);
     const { walletAddress, signTransaction } = useCanvasWallet();
+    if(walletAddress){
+        console.log(walletAddress)
+        const pubKey = new PublicKey(walletAddress)
+        publicKey = pubKey
+    }
 
     const vote = async (voteOption: "For" | "Against" | "Abstain") => {
 
