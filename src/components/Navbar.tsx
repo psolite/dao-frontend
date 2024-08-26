@@ -8,29 +8,9 @@ import { CanvasClient } from "@dscvr-one/canvas-client-sdk";
 
 const Navbar = () => {
   const { connectWallet, walletAddress, walletIcon, iframe } = useCanvasWallet();
-  const containerRef = useRef<HTMLDivElement>(null);
-  const canvasClientRef = useRef<CanvasClient | undefined>();
-  // console.log("wallet address",walletAddress)
   
-  useEffect(() => {
-    if (iframe) {
-      canvasClientRef.current = new CanvasClient();
-    };
+  // console.log("wallet address",walletAddress)
 
-    const resizeObserver = new ResizeObserver((_) => {
-      canvasClientRef?.current?.resize();
-    });
-
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
-    }
-
-    return () => {
-      if (containerRef.current) {
-        resizeObserver.unobserve(containerRef.current);
-      }
-    };
-  }, [])
 
   return (
     <nav className={`flex items-center justify-between`}>

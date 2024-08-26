@@ -4,6 +4,7 @@ import { Inter, Syne } from "next/font/google";
 import "./globals.css";
 import AppWalletProvider from "./components/AppWalletProvider";
 import { CanvasWalletProvider } from "./components/CanvasWalletProvider";
+import Container from "./components/container";
 
 const inter = Inter({ subsets: ["latin"] });
 const syne = Syne({ subsets: ["latin"] });
@@ -35,7 +36,9 @@ export default function RootLayout({
       <body className=''>
         <AppWalletProvider>
           <CanvasWalletProvider>
-            {children}
+            <Container>
+              {children}
+            </Container>
           </CanvasWalletProvider>
         </AppWalletProvider>
       </body>

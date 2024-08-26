@@ -76,7 +76,7 @@ const refreshProposals = async () => {
     }
 }
 return (
-    <main className="m-5">
+    <>
         {(publicKey || walletAddress) ?
             <>
                 <Navbar />
@@ -121,7 +121,7 @@ return (
                 </div>
             )
         }
-    </main>
+    </>
 );
 };
 
