@@ -53,31 +53,13 @@ const Proposals = () => {
                 );
                 setHasVoted(userHasVoted);
 
-                if (iframe) {
-                    canvasClientRef.current = new CanvasClient();
-                };
-        
-                const resizeObserver = new ResizeObserver((_) => {
-                    canvasClientRef?.current?.resize();
-                });
-        
-                if (containerRef.current) {
-                    resizeObserver.observe(containerRef.current);
-                }
-        
-                return () => {
-                    if (containerRef.current) {
-                        resizeObserver.unobserve(containerRef.current);
-                    }
-                };
             } catch (error) {
                 console.error('Error fetching proposal:', error);
             }
         };
-        
-    
 
         fetchProposal();
+       
 }, [publicKey]);
 
 const refreshProposals = async () => {
