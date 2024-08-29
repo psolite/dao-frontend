@@ -15,8 +15,8 @@ const Navbar = () => {
   const userSchema = CanvasInterface.Lifecycle.userSchema;
 
   // Example content that matches the schema
-  const content = userSchema.parse({});
-  console.log(content)
+  // const content = userSchema.parse({});
+  // console.log(content)
   console.log(userSchema)
 
 
