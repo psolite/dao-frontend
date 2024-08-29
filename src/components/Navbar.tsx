@@ -4,12 +4,19 @@ import TotalPoint from "./Point";
 import useCanvasWallet from '@/app/components/CanvasWalletProvider';
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { CanvasClient } from "@dscvr-one/canvas-client-sdk";
+import { CanvasClient, CanvasInterface } from "@dscvr-one/canvas-client-sdk";
 
 const Navbar = () => {
   const { connectWallet, walletAddress, walletIcon, iframe } = useCanvasWallet();
-  
+
   // console.log("wallet address",walletAddress)
+  
+  // Assume CanvasInterface.Lifecycle.userSchema is a Zod schema
+  const userSchema = CanvasInterface.Lifecycle.userSchema;
+
+  // Example content that matches the schema
+  const content = userSchema.parse({});
+  console.log(content)
 
 
   return (
@@ -28,7 +35,7 @@ const Navbar = () => {
                 width={20}
                 className="mr-5 "
               />
-              {walletAddress?.slice(0, 4)}...{walletAddress?.slice(-4)}
+              {content.username}
             </Button>
             :
             <WalletMultiButton style={{}} />
