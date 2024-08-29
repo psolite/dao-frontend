@@ -12,6 +12,7 @@ interface WalletContextType {
     walletIcon: string | null;
     signTransaction: (transaction: Transaction) => Promise<string | null>;
     iframe: boolean;
+    userInfo: { id: string; username: string; avatar?: string | undefined; } | undefined
 }
 
 const WalletContext = createContext<WalletContextType | null>(null);
@@ -24,6 +25,7 @@ export const CanvasWalletProvider = ({ children }: { children: ReactNode }) => {
     const [walletAddress, setWalletAddress] = useState<string | null>(null);
     const [walletIcon, setWalletIcon] = useState<string | null>(null);
     const [iframe, setIframe] = useState<boolean>(false);
+    const [userInfo, setuserInfo] = useState<{ id: string; username: string; avatar?: string | undefined; }>();
 
     useEffect(() => {
         const isIframe = () => {
@@ -58,6 +60,11 @@ export const CanvasWalletProvider = ({ children }: { children: ReactNode }) => {
                     console.log('Wallet connected:', response.untrusted.address);
                 } else {
                     console.error('Failed to connect wallet');
+                }
+                const userInfo = await canvasClient.ready();
+                if(userInfo){
+                    const user = userInfo.untrusted.user
+                    setuserInfo(user)
                 }
             } catch (error) {
                 console.error('Error connecting wallet:', error);
@@ -117,6 +124,7 @@ export const CanvasWalletProvider = ({ children }: { children: ReactNode }) => {
         walletIcon,
         signTransaction,
         iframe,
+        userInfo
     };
 
     return (
