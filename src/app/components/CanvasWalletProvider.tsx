@@ -12,7 +12,8 @@ interface WalletContextType {
     walletIcon: string | null;
     signTransaction: (transaction: Transaction) => Promise<string | null>;
     iframe: boolean;
-    userInfo: { id: string; username: string; avatar?: string | undefined; } | undefined
+    userInfo: { id: string; username: string; avatar?: string | undefined; } | undefined;
+    content: { id: string; portalId: string; portalName: string; } | undefined
 }
 
 const WalletContext = createContext<WalletContextType | null>(null);
@@ -25,7 +26,12 @@ export const CanvasWalletProvider = ({ children }: { children: ReactNode }) => {
     const [walletAddress, setWalletAddress] = useState<string | null>(null);
     const [walletIcon, setWalletIcon] = useState<string | null>(null);
     const [iframe, setIframe] = useState<boolean>(false);
-    const [userInfo, setuserInfo] = useState<{ id: string; username: string; avatar?: string | undefined; }>();
+    const [userInfo, setUserInfo] = useState<{ id: string; username: string; avatar?: string | undefined; }>();
+    const [content, setContent] = useState<{
+        id: string;
+        portalId: string;
+        portalName: string;
+    }>();
 
     useEffect(() => {
         const isIframe = () => {
@@ -61,10 +67,12 @@ export const CanvasWalletProvider = ({ children }: { children: ReactNode }) => {
                 } else {
                     console.error('Failed to connect wallet');
                 }
-                const userInfo = await canvasClient.ready();
-                if(userInfo){
-                    const user = userInfo.untrusted.user
-                    setuserInfo(user)
+                const info = await canvasClient.ready();
+                if (userInfo) {
+                    const user = info.untrusted.user
+                    const content = info.untrusted.content
+                    setUserInfo(user)
+                    setContent(content)
                 }
             } catch (error) {
                 console.error('Error connecting wallet:', error);
@@ -124,7 +132,8 @@ export const CanvasWalletProvider = ({ children }: { children: ReactNode }) => {
         walletIcon,
         signTransaction,
         iframe,
-        userInfo
+        userInfo,
+        content
     };
 
     return (
