@@ -17,6 +17,7 @@ const Navbar = () => {
   // Example content that matches the schema
   const content = userSchema.parse({});
   console.log(content)
+  console.log(userSchema)
 
 
   return (
@@ -35,7 +36,7 @@ const Navbar = () => {
                 width={20}
                 className="mr-5 "
               />
-              {content.username}
+              {"xx"}
             </Button>
             :
             <WalletMultiButton style={{}} />
