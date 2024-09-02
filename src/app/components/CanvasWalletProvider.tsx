@@ -55,6 +55,14 @@ export const CanvasWalletProvider = ({ children }: { children: ReactNode }) => {
     const connectWallet = async () => {
         if (canvasClient) {
             try {
+                const info = await canvasClient.ready();
+                if (info?.untrusted) {
+                    const { user, content } = info.untrusted;
+                    setUserInfo(user);
+                    setContent(content);
+                } else {
+                    console.error('Failed to retrieve user information');
+                }
                 await canvasClient.ready();
                 console.log("CanvasClient is ready");
 
@@ -64,16 +72,12 @@ export const CanvasWalletProvider = ({ children }: { children: ReactNode }) => {
                     setWalletAddress(response.untrusted.address);
                     setWalletIcon(response.untrusted.walletIcon);
                     console.log('Wallet connected:', response.untrusted.address);
+
+
                 } else {
                     console.error('Failed to connect wallet');
                 }
-                const info = await canvasClient.ready();
-                if (userInfo) {
-                    const user = info.untrusted.user
-                    const content = info.untrusted.content
-                    setUserInfo(user)
-                    setContent(content)
-                }
+
             } catch (error) {
                 console.error('Error connecting wallet:', error);
             }
@@ -89,7 +93,7 @@ export const CanvasWalletProvider = ({ children }: { children: ReactNode }) => {
         }
 
         try {
-            const network = "https://api.devnet.solana.com/";
+            const network = process.env.NEXT_PUBLIC_SOLANA_RPC || "https://api.devnet.solana.com/";
             const connection = new Connection(network, 'confirmed');
 
             // Fetch the latest blockhash
@@ -153,3 +157,7 @@ const useCanvasWallet = () => {
 };
 
 export default useCanvasWallet;
+
+//const {userInfo, content} = useCanvasWallet()
+//userInfo is an array of id, username and avatar, so you can access it like userInfo?.username from any page
+//content is an array of id , portalId and portalName, so you can access it like content?.portalId from any page
